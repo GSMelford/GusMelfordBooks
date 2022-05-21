@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <RootNamespace>GusMelfordBooks.API</RootNamespace>
+        <UserSecretsId>d9ef4264-fbd3-47a9-8a58-049c489fb076</UserSecretsId>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\GusMelfordBooks.CustomExceptions\GusMelfordBooks.CustomExceptions.csproj" />
+      <ProjectReference Include="..\GusMelfordBooks.Domain\GusMelfordBooks.Domain.csproj" />
+      <ProjectReference Include="..\GusMelfordBooks.Extensions\GusMelfordBooks.Extensions.csproj" />
+      <ProjectReference Include="..\GusMelfordBooks.Infrastructure\GusMelfordBooks.Infrastructure.csproj" />
+      <ProjectReference Include="..\GusMelfordBooks.Repositories\GusMelfordBooks.Repositories.csproj" />
+      <ProjectReference Include="..\GusMelfordBooks.Services\GusMelfordBooks.Services.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.5" />
+      <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    </ItemGroup>
+
+</Project>
