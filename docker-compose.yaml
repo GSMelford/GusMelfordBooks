@@ -1,0 +1,18 @@
+version: "3.3"
+
+services:
+  gusmelfordbooks.api:
+    image: $DOCKER_REPO/$CONTAINER_NAME:$DOCKER_CONTAINER_TAG
+    restart: always
+    ports:
+      - $PORT:80
+    environment:
+      - AppSettings:DatabaseSettings:Host=$GUSMELFORDBOT_HOST
+      - AppSettings:DatabaseSettings:Port=5432
+      - AppSettings:DatabaseSettings:Database=dev.gusmelfordbooks.db
+      - AppSettings:DatabaseSettings:Username=$POSTGRES_USER
+      - AppSettings:DatabaseSettings:Password=$POSTGRES_PASSWORD
+      - AppSettings:AuthOptions:Issuer=GusMelfordServer
+      - AppSettings:AuthOptions:Audience=GusMelfordBooksClients
+      - AppSettings:AuthOptions:Key=@jojobizarreadventure1960@
+      - AppSettings:AuthOptions:LifeTime=10
