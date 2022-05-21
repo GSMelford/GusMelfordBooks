@@ -8,6 +8,7 @@ builder.Configuration.Bind(nameof(AppSettings), appSettings);
 builder.Services.AddServices(appSettings);
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 WebApplication app = builder.Build();
 
 if (builder.Environment.IsDevelopment())  
