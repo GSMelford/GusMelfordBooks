@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using GusMelfordBooks.CustomExceptions;
@@ -36,20 +37,27 @@ public class AuthService : IAuthService
         {
             throw new UnauthorizedException("Wrong login or password.");
         }
-        
-        DateTime now = DateTime.UtcNow;
 
+        DateTime utcNow = DateTime.UtcNow;
+        TimeSpan lifeTime = TimeSpan.FromMinutes(_appSettings.AuthOptions?.Lifetime == 0
+            ? 10
+            : _appSettings.AuthOptions?.Lifetime ?? 10);
+
+        DateTime expiresIn = utcNow.Add(lifeTime);
         var jwt = new JwtSecurityToken(
             _appSettings.AuthOptions?.Issuer,
             _appSettings.AuthOptions?.Audience,
-            notBefore: now,
+            notBefore: utcNow,
             claims: claimsIdentity.Claims,
-            expires: now.Add(TimeSpan.FromMinutes(_appSettings.AuthOptions?.Lifetime == 0 ? 10 : _appSettings.AuthOptions?.Lifetime ?? 10)),
+            expires: utcNow.Add(lifeTime),
             signingCredentials: new SigningCredentials(Helper.GetSymmetricSecurityKey(_appSettings.AuthOptions?.Key),
                 SecurityAlgorithms.HmacSha256));
         
         var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-        return new Jwt(encodedJwt, claimsIdentity.Name);
+        return new Jwt(
+            encodedJwt,
+            claimsIdentity.Claims.FirstOrDefault(x=> x.Type == ClaimsIdentity.DefaultRoleClaimType)?.Value, 
+            expiresIn.ToString(CultureInfo.InvariantCulture));
     }
     private async Task<ClaimsIdentity?> GetIdentity(UserCredentials userCredentials)
     {

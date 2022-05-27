@@ -18,7 +18,7 @@ public class AuthController : Controller
     [HttpPost("/register")]
     public async Task<IActionResult> Register([FromBody] UserDataDto userDataDto)
     {
-        await _authService.Register(userDataDto.ToDomain(), "Customer");
+        await _authService.Register(userDataDto.ToDomain(), "User");
         return Ok();
     }
     
@@ -30,8 +30,8 @@ public class AuthController : Controller
         return Ok();
     }
     
-    [HttpPost("/token")]
-    public async Task<JwtDto> Token([FromBody] UserCredentialsDto userCredentialsDto)
+    [HttpPost("/login")]
+    public async Task<JwtDto> Login([FromBody] UserCredentialsDto userCredentialsDto)
     {
         return (await _authService.GetToken(userCredentialsDto.ToDomain()))?.ToDto() ?? new JwtDto();
     }

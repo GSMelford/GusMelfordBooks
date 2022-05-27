@@ -10,7 +10,8 @@ public static class Convector
         return new JwtDto
         {
             AccessToken = jwt.AccessToken,
-            UserEmail = jwt.UserEmail
+            UserRole = jwt.UserRole,
+            ExpiresIn = jwt.ExpiresIn
         };
     }
 
