@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\GusMelfordBooks.CustomExceptions\GusMelfordBooks.CustomExceptions.csproj" />
       <ProjectReference Include="..\GusMelfordBooks.Domain\GusMelfordBooks.Domain.csproj" />
     </ItemGroup>
 

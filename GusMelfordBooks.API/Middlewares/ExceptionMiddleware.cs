@@ -40,10 +40,15 @@ public class ExceptionMiddleware
     {
         Error error = new Error();
 
-        if (exception is UnauthorizedException wrongArgumentsException)
+        if (exception is UnauthorizedException unauthorizedException)
         {
             error.StatusCode = (int) HttpStatusCode.Unauthorized;
-            error.Message = wrongArgumentsException.Message;
+            error.Message = unauthorizedException.Message;
+        }
+        if (exception is ConflictException conflictException)
+        {
+            error.StatusCode = (int) HttpStatusCode.Conflict;
+            error.Message = conflictException.Message;
         }
         else
         {
