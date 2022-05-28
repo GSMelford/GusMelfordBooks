@@ -16,7 +16,7 @@ public class StoreRepository : IStoreRepository
         _databaseContext = databaseContext;
     }
     
-    public async Task AddAuthor(AuthorData authorData)
+    public async Task AddAuthorAsync(AuthorData authorData)
     {
         Author? author = await _databaseContext.Set<Author>()
             .FirstOrDefaultAsync(x => x.FirstName == authorData.FirstName && x.LastName == authorData.LastName);

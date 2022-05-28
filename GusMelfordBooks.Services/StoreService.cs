@@ -3,7 +3,7 @@ using GusMelfordBooks.Domain.Interfaces;
 
 namespace GusMelfordBooks.Services;
 
-public class StoreService
+public class StoreService : IStoreService
 {
     private readonly IStoreRepository _storeRepository;
 
@@ -12,12 +12,12 @@ public class StoreService
         _storeRepository = storeRepository;
     }
 
-    public async Task AddAuthor(AuthorData authorData)
+    public async Task AddAuthorAsync(AuthorData authorData)
     {
-        await _storeRepository.AddAuthor(authorData);
+        await _storeRepository.AddAuthorAsync(authorData);
     }
     
-    public async Task AddGenre(GenreData genreData)
+    public async Task AddGenreAsync(GenreData genreData)
     {
         await _storeRepository.AddGenre(genreData);
     }

@@ -18,7 +18,9 @@ public static class DependencyInjectionHelper
         services.AddTransient<IDatabaseContext>(_ => new DatabaseContext(appSettings.DatabaseSettings));
         services.AddTransient<IAuthService, AuthService>();
         services.AddTransient<IAuthRepository, AuthRepository>();
-
+        services.AddTransient<IStoreService, StoreService>();
+        services.AddTransient<IStoreRepository, StoreRepository>();
+        
         services.AddHealthChecks();
         services.AddControllers();
         services.AddAuthorization();
