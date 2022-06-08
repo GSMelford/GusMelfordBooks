@@ -15,7 +15,8 @@ public static class DependencyInjectionHelper
     public static void AddServices(this IServiceCollection services, AppSettings appSettings)
     {
         services.AddSingleton(appSettings);
-        services.AddTransient<IDatabaseContext>(_ => new DatabaseContext(appSettings.DatabaseSettings));
+        services.AddTransient<IDatabaseContext>(
+            _ => new DatabaseContext(appSettings.DatabaseSettings, appSettings.AdminEmail, appSettings.AdminPassword));
         services.AddTransient<IAuthService, AuthService>();
         services.AddTransient<IAuthRepository, AuthRepository>();
         services.AddTransient<IStoreService, StoreService>();

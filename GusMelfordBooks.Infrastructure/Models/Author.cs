@@ -8,7 +8,7 @@ public class Author : BaseEntity
     public string FirstName { get; set; }
     
     [MaxLength(30)]
-    public string MiddleName { get; set; }
+    public string? MiddleName { get; set; }
     
     [MaxLength(30)]
     public string LastName { get; set; }
