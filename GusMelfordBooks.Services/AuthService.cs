@@ -32,12 +32,13 @@ public class AuthService : IAuthService
     
     public async Task<Jwt?> GetToken(UserCredentials userCredentials)
     {
-        ClaimsIdentity? claimsIdentity = await GetIdentity(userCredentials);
-        if (claimsIdentity == null)
+        User? user = await _authRepository.GetUser(userCredentials.Email ?? string.Empty, userCredentials.Password ?? string.Empty);
+        if (user == null)
         {
             throw new UnauthorizedException("Wrong login or password.");
         }
-
+        
+        ClaimsIdentity claimsIdentity = GetIdentity(user);
         DateTime utcNow = DateTime.UtcNow;
         TimeSpan lifeTime = TimeSpan.FromMinutes(_appSettings.AuthOptions?.Lifetime == 0
             ? 10
@@ -57,19 +58,15 @@ public class AuthService : IAuthService
         return new Jwt(
             encodedJwt,
             claimsIdentity.Claims.FirstOrDefault(x=> x.Type == ClaimsIdentity.DefaultRoleClaimType)?.Value, 
-            expiresIn.ToString(CultureInfo.InvariantCulture));
+            expiresIn.ToString(CultureInfo.InvariantCulture),
+            string.Join(" ", user.FirstName, user.MiddleName, user.LastName));
     }
-    private async Task<ClaimsIdentity?> GetIdentity(UserCredentials userCredentials)
+    
+    private ClaimsIdentity GetIdentity(User user)
     {
-        User? user = await _authRepository.GetUser(userCredentials.Email ?? string.Empty, userCredentials.Password ?? string.Empty);
-        if (user is null)
-        {
-            return null;
-        }
-        
         List<Claim> claims = new List<Claim>
         {
-            new (ClaimsIdentity.DefaultNameClaimType, user.Email),
+            new (ClaimsIdentity.DefaultNameClaimType, user.Id.ToString()),
             new (ClaimsIdentity.DefaultRoleClaimType, user.Role.Name)
         };
         

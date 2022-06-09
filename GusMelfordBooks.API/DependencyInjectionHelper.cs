@@ -21,6 +21,8 @@ public static class DependencyInjectionHelper
         services.AddTransient<IAuthRepository, AuthRepository>();
         services.AddTransient<IStoreService, StoreService>();
         services.AddTransient<IStoreRepository, StoreRepository>();
+        services.AddTransient<IShopService, ShopService>();
+        services.AddTransient<IShopRepository, ShopRepository>();
         
         services.AddHealthChecks();
         services.AddControllers();

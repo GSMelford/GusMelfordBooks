@@ -11,7 +11,8 @@ public static class Convector
         {
             AccessToken = jwt.AccessToken,
             UserRole = jwt.UserRole,
-            ExpiresIn = jwt.ExpiresIn
+            ExpiresIn = jwt.ExpiresIn,
+            Name = jwt.Name
         };
     }
 

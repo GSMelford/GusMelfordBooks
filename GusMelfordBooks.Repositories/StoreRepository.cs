@@ -116,7 +116,7 @@ public class StoreRepository : IStoreRepository
         }
         
         book = new Book();
-        foreach (Guid genresId in bookData.GenresIds)
+        foreach (Guid genresId in bookData.GenresIds ?? new List<Guid>())
         {
             Genre? genre = await _databaseContext.Set<Genre>().FirstOrDefaultAsync(x => x.Id == genresId);
             if (genre is null)
@@ -132,7 +132,7 @@ public class StoreRepository : IStoreRepository
             throw new ConflictException($"The book {book.Title} has no genre");
         }
         
-        foreach (Guid publisherId in bookData.PublisherIds)
+        foreach (Guid publisherId in bookData.PublisherIds ?? new List<Guid>())
         {
             Publisher? publisher = await _databaseContext.Set<Publisher>().FirstOrDefaultAsync(x => x.Id == publisherId);
             if (publisher is null)
@@ -282,9 +282,11 @@ public class StoreRepository : IStoreRepository
             throw new ConflictException($"Book id {bookData.Id} not exists");
         }
 
-        Book newBook = await BuildBook(bookData);
-        newBook.Id = book.Id;
-        _databaseContext.Update(newBook);
+        book.Description = bookData.Description;
+        book.Language = bookData.Language;
+        book.Price = bookData.Price;
+        book.Title = bookData.Title;
+        _databaseContext.Update(book);
         await _databaseContext.SaveChangesAsync();
     }
     

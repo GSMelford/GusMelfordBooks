@@ -1,3 +1,4 @@
+using GusMelfordBooks.CustomExceptions;
 using GusMelfordBooks.Domain.Auth;
 using GusMelfordBooks.Domain.Interfaces;
 using GusMelfordBooks.Infrastructure.Interfaces;
@@ -56,5 +57,16 @@ public class AuthRepository : IAuthRepository
 
         await _databaseContext.SaveChangesAsync();
         return true;
+    }
+
+    public async Task<Guid> GetUserId(string email)
+    {
+        User? user = await _databaseContext.Set<User>().FirstOrDefaultAsync(x => x.Email == email);
+        if (user is null)
+        {
+            throw new ConflictException($"User does not exist with e-mail {email}");
+        }
+        
+        return user.Id;
     }
 }
