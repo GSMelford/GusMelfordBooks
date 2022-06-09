@@ -7,6 +7,8 @@ services:
     ports:
       - $PORT:80
     environment:
+      - AppSettings:AdminEmail=admin@gusmelford.com
+      - AppSettings:AdminPassword=123
       - AppSettings:DatabaseSettings:Host=$GUSMELFORDBOT_HOST
       - AppSettings:DatabaseSettings:Port=5432
       - AppSettings:DatabaseSettings:Database=dev.gusmelfordbooks.db
